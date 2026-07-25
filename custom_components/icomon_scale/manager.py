@@ -240,8 +240,6 @@ class IcomonManager:
             fat_coeff = 1.0
             if weight < 61:
                 fat_coeff = 0.98
-            if h > 160:
-                fat_coeff *= 1.03
         else:
             fat_const = 9.25 if age <= 49 else 7.25
             fat_coeff = 1.0
@@ -249,15 +247,13 @@ class IcomonManager:
                 fat_coeff = 0.96
             elif weight < 50:
                 fat_coeff = 1.02
-            if h > 160:
-                fat_coeff *= 1.03
 
         fat_pct = (1.0 - (((lbm_coeff - fat_const) * fat_coeff) / weight)) * 100
         fat_pct = max(3.0, min(60.0, fat_pct))
 
         # Water %
         water_pct = (100 - fat_pct) * 0.7
-        water_coeff = 1.02 if water_pct <= 50 else 0.98
+        water_coeff = 1.017
         water_pct = max(35, min(75, water_pct * water_coeff))
 
         # Bone mass -> bone rate %
@@ -285,14 +281,11 @@ class IcomonManager:
         # FFM
         ffm = round(weight - fat_mass, 1)
 
-        # BMR (Mifflin-St Jeor)
-        if is_male:
-            bmr = round(10 * weight + 6.25 * h - 5 * age + 5)
-        else:
-            bmr = round(10 * weight + 6.25 * h - 5 * age - 161)
+        # BMR (Katch-McArdle, based on FFM — matches Icomon App)
+        bmr = round(370 + 21.6 * ffm)
 
         # Visceral fat
-        visceral_fat = round(bmi * 0.5 - age * 0.05 + 0.4, 1)
+        visceral_fat = round(bmi * 0.3 - age * 0.05 + 0.4, 1)
         visceral_fat = max(1.0, min(50.0, visceral_fat))
 
         # Subcutaneous fat

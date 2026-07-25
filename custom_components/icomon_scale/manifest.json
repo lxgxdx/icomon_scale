@@ -1,7 +1,7 @@
 {
   "domain": "icomon_scale",
   "name": "Icomon 智能体脂秤",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "documentation": "https://github.com/lxgxdx/icomon_scale",
   "dependencies": [
     "bluetooth"
