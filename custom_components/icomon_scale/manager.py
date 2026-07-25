@@ -179,7 +179,8 @@ class IcomonManager:
 
         packet_type = data[2]
         # AFU-WL-TZ-A1 校准零点（体重 raw = weight_kg * 1000 + offset）
-        WEIGHT_OFFSET = 6816144
+        # 校准基准：raw=6884794 时秤显示 69.02kg
+        WEIGHT_OFFSET = 6815774
 
         if packet_type == 0x80:
             # 重量实时包：byte[3:6] = 24位大端体重 raw
